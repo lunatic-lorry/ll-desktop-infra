@@ -1,0 +1,30 @@
+schema_version = 1
+
+[daemon]
+listen_addr = "127.0.0.1:8763"
+token_file = "~/.lunatic-lorry/daemon/token"
+
+[runtime]
+kind = "lunatic_wasm"
+mode = "fresh_process"
+command = "lunatic"
+args = ["run", "ll-lambda.wasm"]
+actor_reusable = false
+
+[granddaddy]
+enabled = true
+command = "erl"
+args = ["-noshell", "-pa", "runtime/ebin", "-s", "ll_granddaddy"]
+
+[cloudflare]
+enabled = false
+command = "cloudflared"
+hostname = ""
+
+[power]
+keep_awake = false
+
+[limits]
+max_parallel_invocations = 16
+idle_freeze_ms = 30000
+idle_reclaim_ms = 120000

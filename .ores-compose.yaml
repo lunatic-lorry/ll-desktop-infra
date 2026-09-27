@@ -1,0 +1,20 @@
+schema_version: ores.compose.v1
+project: lunatic-lorry-desktop
+allow_lazy_start: false
+source:
+  repository: https://github.com/lunatic-lorry/ll-desktop-daemon.git
+  commit: 0cd9912b8337414a7600fb9682a2616ef54d4a24
+  checkout_dir: tmp/dev/ll-desktop-daemon
+services:
+  daemon:
+    runtime: host
+    build:
+      - ["cargo", "build", "--release"]
+    command: ["./target/release/ll-desktop-daemon"]
+    environment:
+      LL_DESKTOP_ADDR: "127.0.0.1:8763"
+    healthcheck:
+      command: ["curl", "--fail", "--silent", "http://127.0.0.1:8763/healthz"]
+      interval_ms: 250
+      timeout_ms: 1000
+      retries: 20

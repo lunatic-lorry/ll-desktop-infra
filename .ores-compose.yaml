@@ -3,7 +3,7 @@ project: lunatic-lorry-desktop
 allow_lazy_start: false
 source:
   repository: https://github.com/lunatic-lorry/ll-desktop-daemon.git
-  commit: 0cd9912b8337414a7600fb9682a2616ef54d4a24
+  commit: f76b0479461cd10cb8e9e5eb7fe8b038245ddf83
   checkout_dir: tmp/dev/ll-desktop-daemon
 services:
   daemon:

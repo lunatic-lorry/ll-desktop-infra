@@ -3,13 +3,13 @@ project: lunatic-lorry-desktop
 allow_lazy_start: false
 source:
   repository: https://github.com/lunatic-lorry/ll-desktop-daemon.git
-  commit: f76b0479461cd10cb8e9e5eb7fe8b038245ddf83
+  commit: df380a882a457706fcf2fe1dffc0e2e532aa5fad
   checkout_dir: tmp/dev/ll-desktop-daemon
 services:
   daemon:
     runtime: host
     build:
-      - ["cargo", "build", "--release"]
+      - ["cargo", "build", "--release", "--locked"]
     command: ["./target/release/ll-desktop-daemon"]
     environment:
       LL_DESKTOP_ADDR: "127.0.0.1:8763"

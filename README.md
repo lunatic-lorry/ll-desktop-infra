@@ -12,18 +12,21 @@ ores-compose plan .ores-compose.yaml
 ores-compose up .ores-compose.yaml
 ```
 
-Public ingress is intentionally gated until /v1/invoke has a remote-auth credential separate from the local desktop-control bearer.
+Public ingress is intentionally gated until `/v1/invoke` has a remote-auth credential separate from the local desktop-control bearer.
 
-The daemon source is exact-commit pinned, loopback-only, and executed from the built release binary. Stable promotion remains blocked until the daemon repository commits a Cargo lockfile and the build switches to `--locked`.
+The daemon source is exact-commit pinned to merged revision `df380a882a457706fcf2fe1dffc0e2e532aa5fad`, loopback-only, built with its committed Cargo v4 lockfile via `cargo build --release --locked`, and executed from the built release binary. That merge has the same tree as exact tested PR #21 head `4369c7556c07fb0580f4b001b06b34369c538289`.
 
-See [docs/local-deployment.md](docs/local-deployment.md) and [appliance.json](appliance.json) for the audited boundary and promotion gates.
+See [docs/local-deployment.md](docs/local-deployment.md) and [appliance.json](appliance.json) for the audited boundary and remaining promotion gates.
 
 ## Shared desktop infra dependency
 
-Generic desktop lifecycle/security behavior is moving to `ORESoftware/ores-common-desktop-infra`. This repo declares that dependency in its ORES appliance metadata and blocks stable promotion until an exact common-layer commit is pinned.
+Generic desktop lifecycle/security behavior lives in `ORESoftware/ores-common-desktop-infra`. The appliance pins merged common revision `20ec084cc550c824c009d5413de84ab519081bd7`; mutable branch dependencies are forbidden. `common_layer_ci_verified` remains false until this exact consumer pin receives stepful shared-validator evidence.
 
-The common platform is now pinned at `1de34a491673cff2ff7fedb6ba36f8b6a10ae5a1` in `appliance.json`. Candidate promotion must keep that exact revision aligned with common-layer conformance checks; updates to the shared platform are explicit revision bumps, never a mutable branch dependency.
+During migration CI dual-runs the historical product admission gate and the shared Rust `validate_appliance_contract` binary from that exact common revision. The Ruby gate is temporary parity evidence, not the long-term authority.
 
+## Runtime semantics
+
+Lunatic-Lorry remains a one-shot/non-reusable actor runtime. The resident daemon may cache compiled WebAssembly modules, but every invocation must receive a fresh isolated Lunatic actor/process state. No actor state may survive into another invocation. Timeout/cancel, crash recovery, bounded output, immutable deployment evidence, and deterministic actor cleanup remain runtime-specific completion gates.
 
 ## Hot-reload routing and middleware
 

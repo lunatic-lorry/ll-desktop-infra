@@ -20,9 +20,9 @@ See [docs/local-deployment.md](docs/local-deployment.md) and [appliance.json](ap
 
 ## Shared desktop infra dependency
 
-Generic desktop lifecycle/security behavior lives in `ORESoftware/ores-common-desktop-infra`. The appliance pins merged common revision `20ec084cc550c824c009d5413de84ab519081bd7`; mutable branch dependencies are forbidden. `common_layer_ci_verified` remains false until this exact consumer pin receives stepful shared-validator evidence.
+Generic desktop lifecycle/security behavior lives in `ORESoftware/ores-common-desktop-infra`. The appliance pins merged common revision `21851fcb6ca59fe4cfe887d882dac78d90548ce4`; mutable branch dependencies are forbidden. `common_layer_ci_verified` remains false until this exact consumer pin receives stepful shared-validator evidence.
 
-During migration CI dual-runs the historical product admission gate and the shared Rust `validate_appliance_contract` binary from that exact common revision. The Ruby gate is temporary parity evidence, not the long-term authority.
+The pinned common revision includes the shared `runtime-generation/rust` transaction authority and the `release-activation-policy` capability. Product policy may choose a runtime-specific fallback, but it must not implement a second generation state machine. The local Ruby gate remains a consumer-side fail-closed contract check; shared runtime semantics stay authoritative in `ORESoftware/ores-common-desktop-infra`.
 
 ## Runtime semantics
 

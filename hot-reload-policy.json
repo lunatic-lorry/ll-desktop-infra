@@ -48,7 +48,8 @@
       "supports_graceful_drain": false,
       "supports_generation_rollback": false,
       "supports_generation_fault_containment": true,
-      "code_loading_boundary": "lunatic_module"
+      "code_loading_boundary": "lunatic_module",
+      "in_process_generation_certified": false
     }
   },
   "invariants": {
